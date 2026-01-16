@@ -1,6 +1,11 @@
 # Build stage
 FROM node:20-alpine AS builder
 
+# Accept build arguments from Coolify
+ARG COOLIFY_URL
+ARG COOLIFY_FQDN
+ARG COOLIFY_BUILD_SECRETS_HASH
+
 WORKDIR /app
 
 # Copy package files
@@ -17,6 +22,11 @@ RUN npm run build
 
 # Production stage
 FROM nginx:alpine
+
+# Accept build arguments (for consistency, though not used in this stage)
+ARG COOLIFY_URL
+ARG COOLIFY_FQDN
+ARG COOLIFY_BUILD_SECRETS_HASH
 
 # Copy built files from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html

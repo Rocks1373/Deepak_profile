@@ -3,10 +3,10 @@
  * Upload files and run matching process
  */
 
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000/api";
+// Demo mode - no API calls needed
+const API_BASE = "http://localhost:4000/api";
 
 type HmsRunStatus = "QUEUED" | "RUNNING" | "DONE" | "FAILED";
 
@@ -45,13 +45,31 @@ function HmsPage() {
     }
 
     const interval = setInterval(async () => {
+      // Demo mode - simulate status updates
       try {
-        const res = await axios.get<{ status: string; data: HmsStatusResponse }>(
-          `${API_BASE}/hms/run/${runId}/status`
-        );
-        if (res.data.status === "SUCCESS") {
-          setStatus(res.data.data.status as HmsRunStatus);
-          setStatusData(res.data.data);
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 500));
+        // Mock status progression
+        if (status === "QUEUED") {
+          setStatus("RUNNING");
+          setStatusData({
+            status: "RUNNING",
+            startedAt: new Date().toISOString(),
+            finishedAt: null,
+            exitCode: null,
+            outputsAvailable: [],
+            lastLogLines: ["Processing files...", "Matching orders..."]
+          });
+        } else if (status === "RUNNING") {
+          setStatus("DONE");
+          setStatusData({
+            status: "DONE",
+            startedAt: new Date(Date.now() - 5000).toISOString(),
+            finishedAt: new Date().toISOString(),
+            exitCode: 0,
+            outputsAvailable: ["matching_report.xlsx", "summary.json"],
+            lastLogLines: ["Processing complete", "Report generated"]
+          });
         }
       } catch (error) {
         console.error("Failed to fetch status:", error);
@@ -115,28 +133,21 @@ function HmsPage() {
         formData.append("dnFiles", file);
       });
 
-      const res = await axios.post<{ status: string; data: { runId: number } }>(
-        `${API_BASE}/hms/run`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (res.data.status === "SUCCESS") {
-        setRunId(res.data.data.runId);
-        setStatus("QUEUED");
-        // Fetch initial status
-        const statusRes = await axios.get<{ status: string; data: HmsStatusResponse }>(
-          `${API_BASE}/hms/run/${res.data.data.runId}/status`
-        );
-        if (statusRes.data.status === "SUCCESS") {
-          setStatus(statusRes.data.data.status as HmsRunStatus);
-          setStatusData(statusRes.data.data);
-        }
-      }
+      // Demo mode - simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock response
+      const mockRunId = Math.floor(Math.random() * 1000) + 1;
+      setRunId(mockRunId);
+      setStatus("QUEUED");
+      setStatusData({
+        status: "QUEUED",
+        startedAt: null,
+        finishedAt: null,
+        exitCode: null,
+        outputsAvailable: [],
+        lastLogLines: ["Run queued successfully"]
+      });
     } catch (error: any) {
       setError(error.response?.data?.message || "Failed to start HMS run");
       console.error("Error submitting HMS run:", error);

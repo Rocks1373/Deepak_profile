@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { EntryGate } from "./EntryGate";
-import { GuidedTour, TourStep } from "./GuidedTour";
-import { SummaryPage } from "./SummaryPage";
+import { GuidedTour } from "./GuidedTour";
 import { demoSteps } from "../../data/demoTour";
 
 interface DemoContextType {
@@ -32,7 +31,6 @@ export function DemoWrapper({ children, currentRoute, onNavigate }: DemoWrapperP
   const [isMrAhmed, setIsMrAhmed] = useState(false);
   const [showTour, setShowTour] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const confirmed = sessionStorage.getItem("demo_confirmed");
@@ -44,7 +42,6 @@ export function DemoWrapper({ children, currentRoute, onNavigate }: DemoWrapperP
         setShowTour(true);
       }
     }
-    setIsInitialized(true);
   }, []);
 
   const handleConfirm = () => {

@@ -341,12 +341,9 @@ function ApprovalsSection() {
 
 // Main Demo App Content
 function DemoAppContentInner() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { isReadOnly } = useDemo();
   const [activeSection, setActiveSection] = useState<"guide" | "dashboard" | "tableViewer" | "reportBuilder" | "approvals" | "mobile">("guide");
   const [dashboard, setDashboard] = useState<DashboardSummary | null>(null);
-  const [socketStatus, setSocketStatus] = useState<string>("connected");
 
   useEffect(() => {
     // In demo mode, use mock data
@@ -365,18 +362,7 @@ function DemoAppContentInner() {
       },
       lastUpdated: new Date().toISOString(),
     });
-    setSocketStatus("connected");
   }, []);
-
-  const handleNavigate = (route: string) => {
-    if (route.startsWith("/gapp-demo")) {
-      navigate(route);
-    } else if (route === "/") {
-      navigate("/gapp-demo");
-    } else {
-      navigate(`/gapp-demo${route}`);
-    }
-  };
 
   return (
     <div className="app-shell">
@@ -411,7 +397,7 @@ function DemoAppContentInner() {
       </header>
       <main className="content">
         {activeSection === "guide" && <GuideSection />}
-        {activeSection === "dashboard" && <DashboardSection dashboard={dashboard} socketStatus={socketStatus} />}
+        {activeSection === "dashboard" && <DashboardSection dashboard={dashboard} socketStatus="connected" />}
         {activeSection === "mobile" && <MobileUIShowcase />}
         {activeSection === "tableViewer" && <TableViewerSection />}
         {activeSection === "reportBuilder" && <ReportBuilderSection />}
