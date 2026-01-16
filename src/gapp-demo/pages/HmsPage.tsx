@@ -333,7 +333,7 @@ function HmsPage() {
                 <strong>Finished:</strong> {new Date(statusData.finishedAt).toLocaleString()}
               </div>
             )}
-            {statusData?.exitCode !== null && (
+            {statusData && statusData.exitCode !== null && (
               <div style={{ marginTop: "0.5rem" }}>
                 <strong>Exit Code:</strong> {statusData.exitCode}
               </div>
