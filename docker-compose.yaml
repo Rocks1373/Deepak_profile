@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ai-vision-website
-    ports:
-      - "80:80"
+    # Port mapping removed - Coolify will handle port assignment automatically
+    # The container still exposes port 80 internally
     restart: unless-stopped
     environment:
       - NODE_ENV=production
