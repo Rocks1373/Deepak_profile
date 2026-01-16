@@ -1,22 +1,24 @@
-import HeroSection from '../components/HeroSection'
-import VisionSection from '../components/VisionSection'
-import PhilosophySection from '../components/PhilosophySection'
-import BusinessValueSection from '../components/BusinessValueSection'
-import GappShowcaseSection from '../components/GappShowcaseSection'
-import FutureVisionSection from '../components/FutureVisionSection'
-import BlogSection from '../components/BlogSection'
+import HeroSalutation from '../components/premium/HeroSalutation'
+import WhyThisMatters from '../components/premium/WhyThisMatters'
+import TheVision from '../components/premium/TheVision'
+import HumanEffortSystem from '../components/premium/HumanEffortSystem'
+import MobileAppIntro from '../components/premium/MobileAppIntro'
+import AISupport from '../components/premium/AISupport'
+import BusinessImpact from '../components/premium/BusinessImpact'
+import ClosingSection from '../components/premium/ClosingSection'
 import Footer from '../components/Footer'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <HeroSection />
-      <VisionSection />
-      <PhilosophySection />
-      <BusinessValueSection />
-      <GappShowcaseSection />
-      <BlogSection />
-      <FutureVisionSection />
+    <div className="min-h-screen bg-slate-900">
+      <HeroSalutation />
+      <WhyThisMatters />
+      <TheVision />
+      <HumanEffortSystem />
+      <MobileAppIntro />
+      <AISupport />
+      <BusinessImpact />
+      <ClosingSection />
       <Footer />
     </div>
   )

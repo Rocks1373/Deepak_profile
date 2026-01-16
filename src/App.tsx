@@ -3,6 +3,7 @@ import LandingPage from './pages/LandingPage'
 import DemoPage from './pages/DemoPage'
 import MobileUIPage from './pages/MobileUIPage'
 import GappDemoPage from './pages/GappDemoPage'
+import PresentationPage from './components/presentation/PresentationPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/mobile-ui" element={<MobileUIPage />} />
         <Route path="/gapp-demo" element={<GappDemoPage />} />
+        <Route path="/presentation" element={<PresentationPage />} />
       </Routes>
     </BrowserRouter>
   )
