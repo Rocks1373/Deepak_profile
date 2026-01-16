@@ -5,6 +5,7 @@ import HumanEffortSystem from '../components/premium/HumanEffortSystem'
 import MobileAppIntro from '../components/premium/MobileAppIntro'
 import AISupport from '../components/premium/AISupport'
 import BusinessImpact from '../components/premium/BusinessImpact'
+import PortfolioShowcase from '../components/PortfolioShowcase'
 import ClosingSection from '../components/premium/ClosingSection'
 import Footer from '../components/Footer'
 
@@ -18,6 +19,7 @@ export default function LandingPage() {
       <MobileAppIntro />
       <AISupport />
       <BusinessImpact />
+      <PortfolioShowcase />
       <ClosingSection />
       <Footer />
     </div>
