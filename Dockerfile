@@ -34,9 +34,13 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Add healthcheck (using wget which we'll install, or use curl)
+# Install wget for healthcheck
+RUN apk add --no-cache wget
+
 # Add healthcheck
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost/health || exit 1
 
 # Expose port 80
 EXPOSE 80
