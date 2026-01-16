@@ -1,0 +1,8 @@
+# Coolify deployment configuration
+build:
+  dockerfile: Dockerfile
+  context: .
+
+deploy:
+  port: 80
+  restart: always

@@ -1,0 +1,439 @@
+/**
+ * DeliveryNotePrint Styles
+ * A4 print-ready CSS for Delivery Note layout
+ * Professional warehouse document styling
+ */
+
+/* ===== PAGE SETUP ===== */
+.dn-print-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 15mm 15mm 10mm 15mm;
+  margin: 0 auto;
+  background: #ffffff;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  font-size: 10pt;
+  line-height: 1.4;
+  color: #1a1a1a;
+  box-sizing: border-box;
+}
+
+/* ===== HEADER SECTION ===== */
+.dn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #333333;
+  margin-bottom: 12px;
+}
+
+.dn-header-left {
+  flex: 1;
+}
+
+.dn-company-name {
+  margin: 0 0 4px 0;
+  font-size: 18pt;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: 0.5px;
+}
+
+.dn-document-title {
+  margin: 0;
+  font-size: 14pt;
+  font-weight: 600;
+  color: #333333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dn-header-right {
+  flex: 0 0 auto;
+}
+
+.dn-meta-table {
+  border-collapse: collapse;
+}
+
+.dn-meta-table td {
+  padding: 2px 8px;
+  vertical-align: top;
+}
+
+.dn-meta-label {
+  font-weight: 600;
+  color: #444444;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dn-meta-value {
+  font-weight: 400;
+  color: #111111;
+  min-width: 100px;
+}
+
+/* ===== ADDRESS SECTION ===== */
+.dn-address-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.dn-address-box {
+  flex: 1;
+  border: 1px solid #555555;
+  padding: 10px 12px;
+  min-height: 100px;
+}
+
+.dn-address-title {
+  margin: 0 0 8px 0;
+  font-size: 10pt;
+  font-weight: 700;
+  color: #333333;
+  text-transform: uppercase;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 4px;
+}
+
+.dn-address-content {
+  font-size: 9pt;
+}
+
+.dn-address-content p {
+  margin: 0 0 2px 0;
+}
+
+.dn-customer-name,
+.dn-warehouse-name {
+  font-weight: 700;
+  font-size: 10pt;
+  margin-bottom: 4px !important;
+}
+
+.dn-address-line {
+  color: #333333;
+}
+
+.dn-contact-line {
+  color: #555555;
+  margin-top: 6px !important;
+}
+
+/* ===== ITEMS TABLE ===== */
+.dn-items-section {
+  margin-bottom: 12px;
+}
+
+.dn-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+.dn-items-table th,
+.dn-items-table td {
+  border: 1px solid #555555;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.dn-items-table th {
+  background-color: #f0f0f0;
+  font-weight: 700;
+  color: #222222;
+  text-transform: uppercase;
+  font-size: 8pt;
+  letter-spacing: 0.3px;
+}
+
+.dn-items-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Column widths */
+.dn-col-item-no {
+  width: 8%;
+  text-align: center;
+}
+
+.dn-col-part-number {
+  width: 18%;
+}
+
+.dn-col-description {
+  width: 44%;
+}
+
+.dn-col-uom {
+  width: 10%;
+  text-align: center;
+}
+
+.dn-col-quantity {
+  width: 12%;
+  text-align: right;
+}
+
+.dn-items-table tbody td:first-child {
+  text-align: center;
+}
+
+.dn-items-table tbody td:nth-child(4) {
+  text-align: center;
+}
+
+.dn-items-table tbody td:last-child {
+  text-align: right;
+}
+
+/* ===== TOTALS SECTION ===== */
+.dn-totals-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.dn-totals-table {
+  border-collapse: collapse;
+  border: 1px solid #555555;
+}
+
+.dn-totals-table td {
+  padding: 4px 12px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.dn-totals-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dn-totals-label {
+  font-weight: 600;
+  color: #333333;
+  text-align: right;
+  background-color: #f5f5f5;
+}
+
+.dn-totals-value {
+  font-weight: 500;
+  color: #111111;
+  text-align: right;
+  min-width: 80px;
+}
+
+/* ===== REMARKS SECTION ===== */
+.dn-remarks-section {
+  margin-bottom: 12px;
+  border: 1px solid #555555;
+  padding: 10px 12px;
+}
+
+.dn-remarks-title {
+  margin: 0 0 6px 0;
+  font-size: 9pt;
+  font-weight: 700;
+  color: #333333;
+  text-transform: uppercase;
+}
+
+.dn-remarks-content {
+  min-height: 30px;
+  font-size: 9pt;
+  color: #444444;
+}
+
+.dn-remarks-content p {
+  margin: 0;
+}
+
+/* ===== FOOTER SECTION ===== */
+.dn-footer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #cccccc;
+}
+
+.dn-footer-left,
+.dn-footer-right {
+  flex: 1;
+  border: 1px solid #555555;
+  padding: 10px 12px;
+}
+
+.dn-footer-title {
+  margin: 0 0 8px 0;
+  font-size: 9pt;
+  font-weight: 700;
+  color: #333333;
+  text-transform: uppercase;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 4px;
+}
+
+/* Delivery Information Table */
+.dn-delivery-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+.dn-delivery-info-table td {
+  padding: 3px 0;
+  vertical-align: top;
+}
+
+.dn-info-label {
+  font-weight: 600;
+  color: #444444;
+  width: 35%;
+}
+
+.dn-info-value {
+  color: #111111;
+}
+
+/* Receiver Confirmation Block */
+.dn-confirmation-block {
+  font-size: 9pt;
+}
+
+.dn-confirmation-row {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.dn-confirmation-label {
+  font-weight: 600;
+  color: #444444;
+  width: 50px;
+  flex-shrink: 0;
+}
+
+.dn-confirmation-line {
+  flex: 1;
+  border-bottom: 1px solid #333333;
+  margin-left: 8px;
+  min-height: 16px;
+}
+
+.dn-stamp-box {
+  width: 100%;
+  height: 60px;
+  border: 2px dashed #aaaaaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  background-color: #fafafa;
+}
+
+.dn-stamp-text {
+  font-size: 14pt;
+  font-weight: 300;
+  color: #cccccc;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.dn-mandatory-note {
+  margin: 6px 0 0 0;
+  font-size: 7pt;
+  color: #666666;
+  font-style: italic;
+}
+
+/* ===== FOOTER NOTES ===== */
+.dn-footer-notes {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid #dddddd;
+}
+
+.dn-signatures {
+  display: flex;
+  gap: 40px;
+}
+
+.dn-signature-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.dn-signature-line {
+  width: 100%;
+  border-bottom: 1px solid #333333;
+  margin-bottom: 4px;
+  height: 30px;
+}
+
+.dn-signature-label {
+  font-size: 8pt;
+  color: #555555;
+}
+
+.dn-page-number {
+  font-size: 8pt;
+  color: #666666;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dn-print-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 10mm 12mm 8mm 12mm;
+    margin: 0;
+    page-break-after: always;
+    box-shadow: none;
+  }
+
+  .dn-items-table th {
+    background-color: #f0f0f0 !important;
+  }
+
+  .dn-totals-label {
+    background-color: #f5f5f5 !important;
+  }
+
+  .dn-stamp-box {
+    background-color: #fafafa !important;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+/* ===== SCREEN PREVIEW STYLES ===== */
+@media screen {
+  .dn-print-page {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+  }
+}

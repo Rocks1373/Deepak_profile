@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoDam Mobile UI - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00D9FF 0%, #B794F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .phone-frame {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .phone-frame:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 217, 255, 0.5);
+        }
+
+        .phone-screen {
+            background: #0A0A0A;
+            border-radius: 30px;
+            overflow: hidden;
+            aspect-ratio: 9/19.5;
+        }
+
+        .screen-header {
+            background: linear-gradient(90deg, #00D9FF 0%, #B794F6 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .screen-title {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .screen-content {
+            padding: 20px;
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #00D9FF;
+        }
+
+        .card-text {
+            font-size: 0.9em;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #00D9FF 0%, #B794F6 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #000;
+            opacity: 0.8;
+        }
+
+        .button {
+            background: linear-gradient(90deg, #00D9FF 0%, #B794F6 100%);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #10B981;
+            color: white;
+        }
+
+        .status-warning {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .status-error {
+            background: #EF4444;
+            color: white;
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .screen-name {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #00D9FF;
+        }
+
+        .features-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #00D9FF;
+        }
+
+        .feature-desc {
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 GoDam Mobile UI</h1>
+        <p class="subtitle">Complete Mobile Application Interface</p>
+
+        <div class="screens-grid">
+            <!-- Screen 1: Login -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">📦 GoDam</div>
+                        </div>
+                        <div class="screen-content">
+                            <div style="text-align: center; padding: 40px 0 30px 0;">
+                                <div style="font-size: 4em;">📦</div>
+                                <h2 style="margin: 20px 0 10px 0;">Welcome Back</h2>
+                                <p style="color: #888;">Sign in to continue</p>
+                            </div>
+                            <input type="text" class="input-field" placeholder="👤 Username" value="admin">
+                            <input type="password" class="input-field" placeholder="🔒 Password" value="••••••••">
+                            <button class="button">🚀 LOGIN</button>
+                            <p style="text-align: center; margin-top: 20px; color: #888; font-size: 0.9em;">Forgot Password?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">Login Screen</div>
+            </div>
+
+            <!-- Screen 2: Dashboard -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">Dashboard</div>
+                            <div>🔔</div>
+                        </div>
+                        <div class="screen-content">
+                            <h3 style="margin-bottom: 20px;">Welcome, Admin! 👋</h3>
+                            
+                            <div class="stat-box">
+                                <div class="stat-number">125</div>
+                                <div class="stat-label">📋 Active Orders</div>
+                            </div>
+                            
+                            <div class="stat-box">
+                                <div class="stat-number">1,234</div>
+                                <div class="stat-label">📦 Stock Items</div>
+                            </div>
+                            
+                            <div class="stat-box">
+                                <div class="stat-number">15</div>
+                                <div class="stat-label">🔄 Pending Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">Dashboard</div>
+            </div>
+
+            <!-- Screen 3: Orders List -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">← Orders</div>
+                            <div>🔍</div>
+                        </div>
+                        <div class="screen-content">
+                            <div class="card">
+                                <div class="card-title">DN2025001</div>
+                                <div class="card-text">
+                                    Customer: ABC Corp<br>
+                                    Items: 5<br>
+                                    <span class="status-badge status-success">✅ Matched</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">DN2025002</div>
+                                <div class="card-text">
+                                    Customer: XYZ Ltd<br>
+                                    Items: 3<br>
+                                    <span class="status-badge status-warning">⚠️ Pending</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">DN2025003</div>
+                                <div class="card-text">
+                                    Customer: DEF Inc<br>
+                                    Items: 8<br>
+                                    <span class="status-badge status-error">❌ Error</span>
+                                </div>
+                            </div>
+                            
+                            <button class="button">+ New Order</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">Orders List</div>
+            </div>
+
+            <!-- Screen 4: DN Creation -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">← Create DN</div>
+                            <div>✓</div>
+                        </div>
+                        <div class="screen-content">
+                            <label style="display: block; margin-bottom: 5px; color: #888;">DN Number</label>
+                            <input type="text" class="input-field" value="DN2025004">
+                            
+                            <label style="display: block; margin-bottom: 5px; color: #888;">PO Number</label>
+                            <input type="text" class="input-field" value="PO4500001">
+                            
+                            <label style="display: block; margin-bottom: 5px; color: #888;">Customer</label>
+                            <input type="text" class="input-field" placeholder="Select Customer ▼">
+                            
+                            <div class="card">
+                                <div class="card-title">Items (3)</div>
+                                <div class="card-text">
+                                    MAT1001 - Qty: 100<br>
+                                    MAT1002 - Qty: 50<br>
+                                    MAT1003 - Qty: 75
+                                </div>
+                            </div>
+                            
+                            <button class="button">+ Add Item</button>
+                            <button class="button">💾 Save DN</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">DN Creation</div>
+            </div>
+
+            <!-- Screen 5: Stock Management -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">← Stock</div>
+                            <div>🔍</div>
+                        </div>
+                        <div class="screen-content">
+                            <input type="text" class="input-field" placeholder="Search...">
+                            
+                            <div class="card">
+                                <div class="card-title">MAT1001</div>
+                                <div class="card-text">
+                                    Description: Part A<br>
+                                    Qty: 500 EA<br>
+                                    Location: A-01-01<br>
+                                    <span class="status-badge status-success">🟢 OK</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">MAT1002</div>
+                                <div class="card-text">
+                                    Description: Part B<br>
+                                    Qty: 250 EA<br>
+                                    Location: A-01-02<br>
+                                    <span class="status-badge status-success">🟢 OK</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">MAT1003</div>
+                                <div class="card-text">
+                                    Description: Part C<br>
+                                    Qty: 8 EA<br>
+                                    Location: A-01-03<br>
+                                    <span class="status-badge status-error">🔴 Low</span>
+                                </div>
+                            </div>
+                            
+                            <button class="button">+ Add Stock</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">Stock Management</div>
+            </div>
+
+            <!-- Screen 6: DN Matching -->
+            <div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <div class="screen-title">← DN Matching</div>
+                            <div>⚙️</div>
+                        </div>
+                        <div class="screen-content">
+                            <h3 style="margin-bottom: 20px;">Upload Files</h3>
+                            
+                            <div class="card">
+                                <div class="card-title">📄 DN File</div>
+                                <div class="card-text">
+                                    DN_2025_001.xlsx<br>
+                                    <span class="status-badge status-success">✅ Uploaded</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">📄 PO File</div>
+                                <div class="card-text">
+                                    PO_Master.xlsx<br>
+                                    <span class="status-badge status-success">✅ Uploaded</span>
+                                </div>
+                            </div>
+                            
+                            <button class="button">🚀 Start Matching</button>
+                            
+                            <div class="card" style="margin-top: 20px;">
+                                <div class="card-title">Results</div>
+                                <div class="card-text">
+                                    ✅ Matched: 5<br>
+                                    ⚠️ Mismatched: 2<br>
+                                    ❌ Errors: 3
+                                </div>
+                            </div>
+                            
+                            <button class="button">📥 Download Report</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-name">DN Matching</div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 10px;">🌟 Mobile Features</h2>
+            <p style="text-align: center; color: #888; margin-bottom: 30px;">Complete logistics management on the go</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title">Cross-Platform</div>
+                    <div class="feature-desc">Works on iOS and Android devices seamlessly</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title">Real-Time Sync</div>
+                    <div class="feature-desc">Instant synchronization with backend server</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📷</div>
+                    <div class="feature-title">Barcode Scanner</div>
+                    <div class="feature-desc">Scan barcodes for quick data entry</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <div class="feature-title">GPS Tracking</div>
+                    <div class="feature-desc">Track driver locations and deliveries</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <div class="feature-title">Push Notifications</div>
+                    <div class="feature-desc">Real-time alerts for important events</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <div class="feature-title">Offline Mode</div>
+                    <div class="feature-desc">Work without internet, sync later</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px;">
+            <h2 style="font-size: 2em; margin-bottom: 20px;">Ready for Your Presentation! 🎉</h2>
+            <p style="color: #888; font-size: 1.1em; line-height: 1.8;">
+                This mobile UI showcases the complete GoDam mobile application<br>
+                Perfect for demonstrating cross-platform capabilities to your manager<br>
+                <strong style="color: #00D9FF;">Open this file in your browser during the presentation!</strong>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
