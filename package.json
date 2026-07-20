@@ -12,7 +12,8 @@
     "godam-api:dev": "npm --prefix godam-api run dev",
     "godam-api:install": "npm --prefix godam-api install",
     "godam-api:test": "npm --prefix godam-api test",
-    "hermes:install-godam": "bash scripts/install-hermes-godam-skill.sh"
+    "hermes:install-godam": "bash scripts/install-hermes-godam-skill.sh",
+    "hermes:repair": "bash scripts/repair-hermes.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",

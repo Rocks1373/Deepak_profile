@@ -34,7 +34,15 @@ npm run hermes:install-godam
 # then in Hermes: /godam show dashboard and pending approvals
 ```
 
-See [HERMES_GODAM_SETUP.md](./HERMES_GODAM_SETUP.md) for full wiring steps.
+If Hermes broke after an update:
+
+```bash
+npm run hermes:repair
+source ~/.bashrc
+hermes setup   # add LLM API key if chat still fails
+```
+
+See [HERMES_GODAM_SETUP.md](./HERMES_GODAM_SETUP.md) and [HERMES_REPAIR.md](./HERMES_REPAIR.md).
 
 ## Build for Production
 
