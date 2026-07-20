@@ -16,6 +16,11 @@ import {
   getMockData 
 } from '../gapp-demo/data/mockData'
 import { useDemo } from '../gapp-demo/components/demo/DemoWrapper'
+import {
+  connectGodamRealtime,
+  fetchGodamDashboard,
+  type GodamRealtimeEvent,
+} from '../lib/godamApi'
 
 type DashboardSummary = {
   inboundToday: number;
@@ -68,16 +73,40 @@ function GuideSection() {
 }
 
 // Dashboard Section
-function DashboardSection({ dashboard, socketStatus }: { dashboard: DashboardSummary | null; socketStatus: string }) {
+function DashboardSection({
+  dashboard,
+  socketStatus,
+  liveMode,
+  recentEvents,
+}: {
+  dashboard: DashboardSummary | null
+  socketStatus: string
+  liveMode: boolean
+  recentEvents: GodamRealtimeEvent[]
+}) {
   if (!dashboard) {
     return <div className="loading">Loading dashboard...</div>;
   }
+
+  const statusColor =
+    socketStatus === "connected"
+      ? "#166534"
+      : socketStatus === "connecting"
+        ? "#92400e"
+        : "#991b1b";
 
   return (
     <div className="dashboard-section section-card" data-tour="dashboard">
       <div className="mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Dashboard Overview</h2>
-        <p className="text-sm text-gray-600">Real-time metrics and stock summary</p>
+        <p className="text-sm text-gray-600">
+          {liveMode
+            ? "Live GoDam API metrics (Hermes-compatible)"
+            : "Demo metrics — start `npm run godam-api` for live data"}
+        </p>
+        <p className="text-xs mt-1" style={{ color: statusColor }}>
+          Stream: {socketStatus} · Updated {new Date(dashboard.lastUpdated).toLocaleString()}
+        </p>
       </div>
       <div className="metrics-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
         <div className="metric-card" style={{ background: "#f8fafc", border: "1px solid #e4e7ec", borderRadius: "0.75rem", padding: "1.5rem", textAlign: "center" }}>
@@ -117,6 +146,19 @@ function DashboardSection({ dashboard, socketStatus }: { dashboard: DashboardSum
             ))}
           </tbody>
         </table>
+
+        {liveMode && recentEvents.length > 0 && (
+          <div style={{ marginTop: "1.5rem" }}>
+            <h3>Live events</h3>
+            <ul style={{ margin: 0, paddingLeft: "1.25rem", color: "#475569" }}>
+              {recentEvents.slice(0, 6).map((ev) => (
+                <li key={`${ev.id}-${ev.at}`}>
+                  <strong>{ev.type}</strong> · {new Date(ev.at).toLocaleTimeString()}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -339,29 +381,73 @@ function ApprovalsSection() {
   );
 }
 
+const FALLBACK_DASHBOARD: DashboardSummary = {
+  inboundToday: 5,
+  outboundToday: 8,
+  pendingInbound: 3,
+  pendingOutbound: 2,
+  stockSummary: {
+    totalParts: 1250,
+    aggregatedQty: 15200,
+    topParts: [
+      { partNumber: "PART-001", qty: 450 },
+      { partNumber: "PART-002", qty: 320 },
+    ],
+  },
+  lastUpdated: new Date().toISOString(),
+};
+
 // Main Demo App Content
 function DemoAppContentInner() {
-  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<"guide" | "dashboard" | "tableViewer" | "reportBuilder" | "approvals" | "mobile">("guide");
   const [dashboard, setDashboard] = useState<DashboardSummary | null>(null);
+  const [liveMode, setLiveMode] = useState(false);
+  const [socketStatus, setSocketStatus] = useState("offline");
+  const [recentEvents, setRecentEvents] = useState<GodamRealtimeEvent[]>([]);
 
   useEffect(() => {
-    // In demo mode, use mock data
-    setDashboard({
-      inboundToday: 5,
-      outboundToday: 8,
-      pendingInbound: 3,
-      pendingOutbound: 2,
-      stockSummary: {
-        totalParts: 1250,
-        aggregatedQty: 15200,
-        topParts: [
-          { partNumber: "PART-001", qty: 450 },
-          { partNumber: "PART-002", qty: 320 },
-        ],
-      },
-      lastUpdated: new Date().toISOString(),
-    });
+    let cancelled = false;
+    let unsubscribe: () => void = () => undefined;
+
+    async function boot() {
+      const live = await fetchGodamDashboard();
+      if (cancelled) return;
+
+      if (live) {
+        setLiveMode(true);
+        setDashboard(live);
+        unsubscribe = connectGodamRealtime(
+          (event) => {
+            if (event.type === "heartbeat") return;
+            setRecentEvents((prev) => [event, ...prev].slice(0, 20));
+            if (
+              event.type === "connected" ||
+              event.type === "order.updated" ||
+              event.type === "stock.updated" ||
+              event.type === "shipment.updated" ||
+              event.type === "approval.updated"
+            ) {
+              fetchGodamDashboard().then((next) => {
+                if (!cancelled && next) setDashboard(next);
+              });
+            }
+          },
+          (status) => {
+            if (!cancelled) setSocketStatus(status);
+          }
+        );
+      } else {
+        setLiveMode(false);
+        setSocketStatus("offline");
+        setDashboard(FALLBACK_DASHBOARD);
+      }
+    }
+
+    boot();
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, []);
 
   return (
@@ -390,21 +476,39 @@ function DemoAppContentInner() {
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div style={{ padding: "0.5rem 1rem", backgroundColor: "#fef3c7", color: "#92400e", borderRadius: "4px", fontSize: "0.85rem", fontWeight: "bold" }}>
-            DEMO MODE
+          <div
+            style={{
+              padding: "0.5rem 1rem",
+              backgroundColor: liveMode ? "#dcfce7" : "#fef3c7",
+              color: liveMode ? "#166534" : "#92400e",
+              borderRadius: "4px",
+              fontSize: "0.85rem",
+              fontWeight: "bold",
+            }}
+          >
+            {liveMode ? `LIVE API · ${socketStatus}` : "DEMO MODE"}
           </div>
         </div>
       </header>
       <main className="content">
         {activeSection === "guide" && <GuideSection />}
-        {activeSection === "dashboard" && <DashboardSection dashboard={dashboard} socketStatus="connected" />}
+        {activeSection === "dashboard" && (
+          <DashboardSection
+            dashboard={dashboard}
+            socketStatus={socketStatus}
+            liveMode={liveMode}
+            recentEvents={recentEvents}
+          />
+        )}
         {activeSection === "mobile" && <MobileUIShowcase />}
         {activeSection === "tableViewer" && <TableViewerSection />}
         {activeSection === "reportBuilder" && <ReportBuilderSection />}
         {activeSection === "approvals" && <ApprovalsSection />}
       </main>
       <footer className="footer-note">
-        Demo Mode • Read-Only • Prepared for Mr. Ahmed
+        {liveMode
+          ? "Live GoDam API · Hermes skill: /godam"
+          : "Demo Mode • Read-Only • Prepared for Mr. Ahmed"}
       </footer>
     </div>
   );
