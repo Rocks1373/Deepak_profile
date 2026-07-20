@@ -85,13 +85,52 @@ If you use **Hermes Desktop**:
 
 Windows: close every `hermes.exe` before updating/repairing, or update will fail while the binary is locked.
 
-## Re-attach GoDam
+## Stop WhatsApp in Hermes
+
+WhatsApp is controlled by `WHATSAPP_ENABLED` in the Hermes `.env`.
+
+### Windows (PowerShell)
+
+```powershell
+# Quick disable + stop gateway
+$envFile = "$env:LOCALAPPDATA\hermes\.env"
+(Get-Content $envFile) `
+  -replace '^\s*#?\s*WHATSAPP_ENABLED=.*','WHATSAPP_ENABLED=false' `
+  -replace '^\s*#?\s*WHATSAPP_CLOUD_ENABLED=.*','WHATSAPP_CLOUD_ENABLED=false' |
+  Set-Content $envFile
+if (-not (Select-String -Path $envFile -Pattern '^WHATSAPP_ENABLED=' -Quiet)) {
+  Add-Content $envFile 'WHATSAPP_ENABLED=false'
+}
+if (-not (Select-String -Path $envFile -Pattern '^WHATSAPP_CLOUD_ENABLED=' -Quiet)) {
+  Add-Content $envFile 'WHATSAPP_CLOUD_ENABLED=false'
+}
+
+hermes gateway stop
+# optional hard stop if something is stuck:
+Stop-Process -Name hermes -Force -ErrorAction SilentlyContinue
+```
+
+Or from this repo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\disable-hermes-whatsapp.ps1
+```
+
+### Linux / macOS
 
 ```bash
-npm run hermes:install-godam
-npm run godam-api   # separate terminal
-# In Hermes: /godam show dashboard and pending approvals
+./scripts/disable-hermes-whatsapp.sh
+# or:
+npm run hermes:disable-whatsapp
 ```
+
+Re-enable later:
+
+```bash
+hermes whatsapp
+hermes gateway restart
+```
+
 
 ## What we verified here
 
